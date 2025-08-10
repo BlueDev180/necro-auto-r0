@@ -1,39 +1,44 @@
-:root{
-  color-scheme:dark;
-  --bg:#121214; --ui:#1e1e1e; --grid:#2b2b2b; --accent:#ffd45a;
-  --cell:48px; /* JS updates this based on screen */
-}
-*{box-sizing:border-box}
-html,body{margin:0;height:100svh;background:var(--bg);font-family:-apple-system,system-ui}
-header,footer{padding:8px 12px;background:var(--ui);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-header{justify-content:space-between}
-.build{color:#7bd7ff;font-size:12px}
-.hud span{margin-right:10px}
+// Board & staging arcs for hybrid layout
+export const BOARD = { W:14, H:6, NECRO_X:[0,1], ENEMY_X:[12,13] };
 
-.board{
-  position:relative; margin:8px auto; width:min(96vw, 880px);
-  aspect-ratio:14/6; border:1px solid #333; border-radius:8px; overflow:hidden;
-  background:
-    repeating-linear-gradient(0deg, transparent 0 calc(var(--cell) - 1px), var(--grid) calc(var(--cell) - 1px) var(--cell)),
-    repeating-linear-gradient(90deg, transparent 0 calc(var(--cell) - 1px), var(--grid) calc(var(--cell) - 1px) var(--cell));
-}
+export const STAGING = {
+  frontArc: [
+    {x:4,y:2},{x:4,y:3},{x:5,y:2},{x:5,y:3},
+    {x:4,y:1},{x:4,y:4},{x:5,y:1},{x:5,y:4},{x:4,y:0},{x:4,y:5}
+  ],
+  midArc: [
+    {x:3,y:2},{x:3,y:3},{x:3,y:1},{x:3,y:4},{x:2,y:2},{x:2,y:3}
+  ],
+  rearArc: [
+    {x:2,y:1},{x:2,y:4},{x:2,y:0},{x:2,y:5},{x:3,y:0},{x:3,y:5}
+  ],
+  flankArcLeft:  [{x:3,y:0},{x:4,y:0},{x:5,y:0},{x:6,y:0}],
+  flankArcRight: [{x:3,y:5},{x:4,y:5},{x:5,y:5},{x:6,y:5}],
+  eliteArc: [{x:3,y:2},{x:3,y:3},{x:2,y:2},{x:2,y:3}],
+  necroPos: {x:1, y:2}
+};
 
-.btn{background:#2b2b2b;color:#fff;border:1px solid #3a3a3a;border-radius:8px;padding:10px 14px}
-.btn.primary{background:#7a50a0}
+export const ENEMY_STAGING = {
+  frontArc: [{x:9,y:2},{x:9,y:3},{x:10,y:2},{x:10,y:3},{x:9,y:1},{x:9,y:4},{x:10,y:1},{x:10,y:4}],
+  midArc:   [{x:11,y:2},{x:11,y:3},{x:11,y:1},{x:11,y:4}],
+  rearArc:  [{x:12,y:2},{x:12,y:3},{x:12,y:1},{x:12,y:4}],
+  flankArcLeft:  [{x:10,y:0},{x:9,y:0}],
+  flankArcRight: [{x:10,y:5},{x:9,y:5}],
+  bossArc: [{x:12,y:2},{x:12,y:3}]
+};
 
-.u{position:absolute; width:calc(var(--cell) - 8px); height:calc(var(--cell) - 8px); border-radius:6px; transform:translate(4px,4px)}
-.u.ally{outline:1px solid #6ae38d22}
-.u.enemy{outline:1px solid #e36a6a22}
-.role-Warrior{background:#c8503c}
-.role-Archer{background:#50c85a}
-.role-Wraith{background:#8e6ad6}
-.role-Golem{background:#b3b3b3}
-.role-EnemyMelee{background:#aa5858}
-.role-EnemyArcher{background:#7aa8a8}
+export const ROLE_ARCS = {
+  Warrior: ["frontArc","midArc"],
+  Golem: ["frontArc","eliteArc"],
+  Archer: ["rearArc","midArc"],
+  Wraith: ["flankArcLeft","flankArcRight","midArc"],
+  EliteMelee: ["eliteArc","frontArc","midArc"],
+  EliteRanged:["eliteArc","rearArc","midArc"],
+  EnemyMelee:["frontArc","midArc"],
+  EnemyArcher:["rearArc","midArc"]
+};
 
-.hp{position:absolute;left:10%;right:10%;bottom:8%;height:6px;background:#333;border-radius:3px;overflow:hidden}
-.hp>i{display:block;height:100%;background:#e43a3a;width:100%}
-
-.badge{position:absolute;top:2px;left:2px;background:#0008;color:#fff;font-size:10px;padding:2px 4px;border-radius:4px}
-.necro{background:#222;border:1px solid #555}
-.necro .badge{background:#1e1e1e}
+export const SQUADS = {
+  Warrior:{size:3}, Archer:{size:2}, Wraith:{size:2}, Golem:{size:1},
+  EnemyMelee:{size:3}, EnemyArcher:{size:2}
+};
